@@ -1,0 +1,19 @@
+{
+  "name": "infigma-boxshadow-maker",
+  "version": "1.0.0",
+  "author": "ingenyus*",
+  "description": "Plugin which generates smooth shadows that you can control the direction of.",
+  "main": "code.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "license": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ingenyus/infigma-boxshadow-maker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ingenyus/infigma-boxshadow-maker/issues"
+  },
+  "homepage": "https://github.com/ingenyus/infigma-boxshadow-maker#readme"
+}
