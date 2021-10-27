@@ -1,8 +1,61 @@
+<style>
+    #textarea,
+    #selector {
+        display: none;
+    }
+
+    #textarea.show,
+    #selector.show {
+        display: block;
+    }
+</style>
+
 <div class="plugin_container">
     <div class="controller">
         <h1 class="type type__neg_large_bold">
             inFigma* - Crear BoxShadow
         </h1>
         <!-- cojer los estilos de color para generar una lista con los colores del tema -->
+        <textarea id="textarea"></textarea>
+        <select id="selector"></select>
+        <button id="checkStyles">
+            Check Styles
+        </button>
     </div>
 </div>
+
+<script>
+    // Elementos
+    const checkStyles = document.getElementById("checkStyles");
+    const textArea = document.getElementById("textarea");
+    const selector = document.getElementById("selector");
+
+    // Message from "backend"
+    onmessage = e => {
+        switch (e.data.pluginMessage.type) {
+            case "checkedStyles":
+                return useShowStyles(e.data.pluginMessage.data);
+            default:
+                return;
+        }
+    }
+
+    const useShowStyles = (data) => {
+        console.log(data);
+        selector.classList.add("show")
+        data.forEach(style => {
+            const option = document.createElement("option");
+            const span = document.createElement("span");
+            option.value = style.color;
+            option.text = `${style.name}`;
+            span.style = `width: 16px; height: 16px; background: ${style.color}; display: block`;
+            selector.add(option, null)
+            option.add(span, null);
+        });
+    }
+
+    checkStyles.onclick = () => {
+        textArea.value = "";
+        parent.postMessage({ pluginMessage: { type: "checkStyles" } }, "*");
+    }
+</script>
