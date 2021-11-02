@@ -7,7 +7,7 @@ Author: Cesar Novoa | ingenyus*
 */
 
 // Show Plugin
-figma.showUI(__html__, { width: 300, height: 400 });
+figma.showUI(__html__, { width: 300, height: 450 });
 
 // Message from "frontend"
 figma.ui.onmessage = (msg) => {
@@ -44,14 +44,28 @@ const useCheckStyles = () => {
     };
   });
 
-  figma.ui.postMessage({ type: "checkedStyles", data: colors });
+  const ColorStyles = {};
+
+  colors.forEach((color) => {
+    if (!ColorStyles[color.name.type]) {
+      ColorStyles[color.name.type] = {};
+    }
+    ColorStyles[color.name.type][color.name.value] = color.color;
+  });
+
+  figma.ui.postMessage({ type: "checkedStyles", data: ColorStyles });
 };
 
 // Fixers
 const fixName = (str: string) => {
   const item = str.split("/");
 
-  return item.join("--");
+  const itemReturn = {
+    type: item[0],
+    value: item[1],
+  };
+
+  return itemReturn;
 };
 
 const BeautifyColor = (colorValue) => {

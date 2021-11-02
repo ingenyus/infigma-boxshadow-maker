@@ -6,7 +6,7 @@ Author: Cesar Novoa | ingenyus*
 
 */
 // Show Plugin
-figma.showUI(__html__, { width: 300, height: 400 });
+figma.showUI(__html__, { width: 300, height: 450 });
 // Message from "frontend"
 figma.ui.onmessage = (msg) => {
     switch (msg.type) {
@@ -36,12 +36,23 @@ const useCheckStyles = () => {
             color: ColorStyle,
         };
     });
-    figma.ui.postMessage({ type: "checkedStyles", data: colors });
+    const ColorStyles = {};
+    colors.forEach((color) => {
+        if (!ColorStyles[color.name.type]) {
+            ColorStyles[color.name.type] = {};
+        }
+        ColorStyles[color.name.type][color.name.value] = color.color;
+    });
+    figma.ui.postMessage({ type: "checkedStyles", data: ColorStyles });
 };
 // Fixers
 const fixName = (str) => {
     const item = str.split("/");
-    return item.join("--");
+    const itemReturn = {
+        type: item[0],
+        value: item[1],
+    };
+    return itemReturn;
 };
 const BeautifyColor = (colorValue) => {
     return Math.round(colorValue * 255);
